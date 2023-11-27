@@ -1,0 +1,98 @@
+{% extends "base.html" %} {% block content %}
+
+<div
+  id="create"
+  class="relative overflow-x-auto w-full p-6 m-6 flex flex-col gap-y-2 shadow-sm border border-gray-100 dark:border-gray-700 rounded-lg"
+>
+  <form
+    class="flex items-start p-6 rounded-lg gap-y-5 flex-col bg-gray-700"
+    hx-post="/products"
+    hx-ext="json-enc"
+    hx-refresh="true"
+    hx-target="#create"
+    hx-swap="outerHTML"
+  >
+    <div class="flex flex-col gap-y-2">
+      <label class="text-white" for="product_name">Nama Product</label>
+      <input
+        class="border border-gray-300 rounded px-2 py-1"
+        type="text"
+        id="product_name"
+        name="product_name"
+      />
+    </div>
+    <div class="flex flex-col gap-y-2">
+      <label class="text-white" for="color">Warna Product</label>
+      <input
+        class="border border-gray-300 rounded px-2 py-1"
+        type="text"
+        id="color"
+        name="color"
+      />
+    </div>
+
+    <div class="flex flex-col gap-y-2">
+      <label class="text-white" for="category">Kategori Product</label>
+      <input
+        class="border border-gray-300 rounded px-2 py-1"
+        type="text"
+        id="category"
+        name="category"
+      />
+    </div>
+    <div class="flex flex-col gap-y-2">
+      <label class="text-white" for="price">Harga Product</label>
+      <input
+        class="border border-gray-300 rounded px-2 py-1"
+        type="number"
+        id="price"
+        name="price"
+      />
+    </div>
+    <button class="bg-white text-black p-2 rounded-lg" type="submit">
+      Submit!
+    </button>
+  </form>
+
+  <table
+    id="table"
+    class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 rounded-lg"
+  >
+    <thead
+      class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
+    >
+      <tr>
+        <th scope="col" class="px-6 py-3">Product name</th>
+        <th scope="col" class="px-6 py-3">Color</th>
+        <th scope="col" class="px-6 py-3">Category</th>
+        <th scope="col" class="px-6 py-3">Price</th>
+        <th scope="col" class="px-6 py-3">Aksi</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for product in products %}
+      <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+        <th
+          scope="row"
+          class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+        >
+          {{ product.product_name }}
+        </th>
+        <td class="px-6 py-4">{{ product.color }}</td>
+        <td class="px-6 py-4">{{ product.category }}</td>
+        <td class="px-6 py-4">{{ product.price }}</td>
+        <td class="px-6 py-4">
+          <button
+            hx-swap="outerHTML"
+            hx-target="#create"
+            hx-delete="/products/{{ product.id }}"
+          >
+            Delete
+          </button>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
